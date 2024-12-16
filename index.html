@@ -1,29 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    
-    
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Lista de domínios que devem ter links marcados como "nofollow"
-        const domains = ["ttdo.com.br", "https://escola-ebd.com.br", "ivaldofs.com.br", "hinos-times.com.br", "esbocobiblia.com.br", "artecordel.com.br", "https://www.escola-ebd.com/"];
-
-        // Seleciona todos os links da página
-        const links = document.querySelectorAll('a[href]');
-
-        // Itera sobre os links e adiciona "nofollow" aos que correspondem aos domínios
-        links.forEach(link => {
-            domains.forEach(domain => {
-                if (link.href.includes(domain)) {
-                    link.setAttribute('rel', 'nofollow');
-                }
-            });
-        });
-    });
-</script>
-
-    
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>javalgoritmo</title>
