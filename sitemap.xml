@@ -50,4 +50,10 @@
         <priority>0.8</priority>
         <changefreq>weekly</changefreq>
     </url>
+<url>
+        <loc>https://javalgoritmo.com.br/unix/index.html</loc>
+        <priority>0.8</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+
 </urlset>
