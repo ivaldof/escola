@@ -120,6 +120,89 @@
             line-height: 1.4;
         }
         
+        /* Estilos da Galeria */
+        .galeria {
+            width: 100%;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .galeria-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 400px;
+        }
+        
+        .galeria-slide {
+            min-width: 100%;
+            height: 100%;
+        }
+        
+        .galeria-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .galeria-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 51, 102, 0.7);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .galeria-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+        
+        .galeria-nav button {
+            background: rgba(0, 51, 102, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.3s;
+        }
+        
+        .galeria-nav button:hover {
+            background: rgba(0, 51, 102, 0.9);
+        }
+        
+        .galeria-indicadores {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .indicador {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+        }
+        
+        .indicador.ativo {
+            background: white;
+        }
+        
         footer {
             background-color: #003366;
             color: white;
@@ -132,11 +215,19 @@
             .combo, .tecnico {
                 width: 48%;
             }
+            
+            .galeria-container {
+                height: 300px;
+            }
         }
         
         @media (max-width: 480px) {
             .combo, .tecnico {
                 width: 100%;
+            }
+            
+            .galeria-container {
+                height: 200px;
             }
         }
     </style>
@@ -148,6 +239,40 @@
     </header>
     
     <div class="container">
+        <!-- Galeria de Fotos Automática -->
+        <div class="galeria">
+            <div class="galeria-container">
+                <div class="galeria-slide">
+                    <img src="https://source.unsplash.com/random/800x400/?networking" alt="Trabalho em rede">
+                    <div class="galeria-caption">Instalação profissional de infraestrutura de rede</div>
+                </div>
+                <div class="galeria-slide">
+                    <img src="https://source.unsplash.com/random/800x400/?server" alt="Servidores">
+                    <div class="galeria-caption">Configuração de servidores e equipamentos</div>
+                </div>
+                <div class="galeria-slide">
+                    <img src="https://source.unsplash.com/random/800x400/?cable" alt="Cabeamento">
+                    <div class="galeria-caption">Cabeamento estruturado de alta qualidade</div>
+                </div>
+                <div class="galeria-slide">
+                    <img src="https://source.unsplash.com/random/800x400/?technician" alt="Nossa equipe">
+                    <div class="galeria-caption">Equipe especializada pronta para atender</div>
+                </div>
+            </div>
+            
+            <div class="galeria-nav">
+                <button class="galeria-prev">&#10094;</button>
+                <button class="galeria-next">&#10095;</button>
+            </div>
+            
+            <div class="galeria-indicadores">
+                <div class="indicador ativo"></div>
+                <div class="indicador"></div>
+                <div class="indicador"></div>
+                <div class="indicador"></div>
+            </div>
+        </div>
+        
         <h2>Nossos Serviços</h2>
         <p>Oferecemos soluções completas para sua rede de computadores, desde diagnóstico até implementação.</p>
         
@@ -213,8 +338,84 @@
     
     <footer>
         <p>DJTI.NET - Soluções em Redes de Computadores</p>
-        <p>Contato: (84) 98893-5796 | contato@djti.net</p>
+        <p>Contato: (84) 9889-35796 | contato@djti.net</p>
         <p>&copy; 2025 DJTI.NET - Todos os direitos reservados</p>
     </footer>
+
+    <script>
+        // Galeria Automática
+        document.addEventListener('DOMContentLoaded', function() {
+            const galeria = document.querySelector('.galeria-container');
+            const slides = document.querySelectorAll('.galeria-slide');
+            const indicadores = document.querySelectorAll('.indicador');
+            const btnPrev = document.querySelector('.galeria-prev');
+            const btnNext = document.querySelector('.galeria-next');
+            
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            let slideInterval;
+            
+            // Inicia a transição automática
+            function startSlideShow() {
+                slideInterval = setInterval(nextSlide, 5000); // Muda a cada 5 segundos
+            }
+            
+            // Para a transição automática
+            function pauseSlideShow() {
+                clearInterval(slideInterval);
+            }
+            
+            // Vai para o próximo slide
+            function nextSlide() {
+                goToSlide(currentSlide === totalSlides - 1 ? 0 : currentSlide + 1);
+            }
+            
+            // Vai para o slide anterior
+            function prevSlide() {
+                goToSlide(currentSlide === 0 ? totalSlides - 1 : currentSlide - 1);
+            }
+            
+            // Vai para um slide específico
+            function goToSlide(n) {
+                slides[currentSlide].classList.remove('ativo');
+                indicadores[currentSlide].classList.remove('ativo');
+                
+                currentSlide = (n + totalSlides) % totalSlides;
+                
+                galeria.style.transform = `translateX(-${currentSlide * 100}%)`;
+                slides[currentSlide].classList.add('ativo');
+                indicadores[currentSlide].classList.add('ativo');
+            }
+            
+            // Event listeners
+            btnNext.addEventListener('click', function() {
+                pauseSlideShow();
+                nextSlide();
+                startSlideShow();
+            });
+            
+            btnPrev.addEventListener('click', function() {
+                pauseSlideShow();
+                prevSlide();
+                startSlideShow();
+            });
+            
+            // Clicar nos indicadores
+            indicadores.forEach((indicador, index) => {
+                indicador.addEventListener('click', () => {
+                    pauseSlideShow();
+                    goToSlide(index);
+                    startSlideShow();
+                });
+            });
+            
+            // Pausar quando o mouse está sobre a galeria
+            document.querySelector('.galeria').addEventListener('mouseenter', pauseSlideShow);
+            document.querySelector('.galeria').addEventListener('mouseleave', startSlideShow);
+            
+            // Iniciar
+            startSlideShow();
+        });
+    </script>
 </body>
 </html>
